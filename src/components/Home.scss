@@ -1,0 +1,24 @@
+.select__ride {
+    padding: 20px;
+    background-color: #F7BB44;
+
+    select {
+        width: 250px;
+        height: 30px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+}
+
+.table__ride {
+    margin: 0 auto;
+    padding: 20px;
+
+    th {
+        color: #272F4A;
+    }
+
+    th, td {
+        padding: 10px; 
+    }
+}
