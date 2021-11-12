@@ -28,6 +28,11 @@ const Home = () => {
         setTrip(event.target.value)
         getTripsByStop(trip)
         .then((response)=>{
+            response.data.sort(function(a, b) {
+                var textA = a.arrivalStop.toUpperCase();
+                var textB = b.arrivalStop.toUpperCase();
+                return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            });
             setTripsByStop(response.data)
         })
         .catch(() => {
@@ -44,7 +49,6 @@ const Home = () => {
                 getTripsById(event.target.id)
                 .then((response) => {
                     setReservedTrip([...reservedTrip, response.data[0]]);
-                    console.log('RESERVED', reservedTrip)
                 })
                 .catch(() => {
                     console.log('getTripsById error')
@@ -61,7 +65,7 @@ const Home = () => {
             <div className="select__ride">
                 <label htmlFor="ride-select">Sélectionnez un arrêt : </label>
                     <select name="rides" id="ride-select" onChange={handleChange}>
-                        <option value="">--Veuillez sélectionner une option--</option>
+                        <option value=""> Veuillez sélectionner une option </option>
                         {
                             stops.map((stop, index)=>{
                                 return(
@@ -78,7 +82,7 @@ const Home = () => {
                         <th>Arrêt</th>
                         <th>Heure de départ</th>
                         <th>Arrivée</th>
-                        <th>Heude d'arrivée</th>
+                        <th>Heure d'arrivée</th>
                         <th>Réservation</th>
                     </tr>
                 </thead>
@@ -92,7 +96,7 @@ const Home = () => {
                                 <td>{trip.arrivalStop}</td>
                                 <td>{moment(trip.arrivalTime).format("DD/MM/YYYY à h:mm")}</td>
                                 <td><button id={trip.id} onClick={handleClick}>Réserver</button></td>
-                                <ToastContainer />
+                                <td><ToastContainer /></td>
                             </tr>
                         )
                     })
@@ -101,8 +105,7 @@ const Home = () => {
             </table>
             }
 
-            {
-                reservedTrip  && tripsByStop !== undefined && tripsByStop.length > 0 && <div>
+            {reservedTrip  && tripsByStop !== undefined && tripsByStop.length > 0 && <div>
                 <h3>Réservations</h3>
                 <table className="table__ride">
                     <thead>
@@ -110,7 +113,7 @@ const Home = () => {
                             <th>Arrêt</th>
                             <th>Heure de départ</th>
                             <th>Arrivée</th>
-                            <th>Heude d'arrivée</th>
+                            <th>Heure d'arrivée</th>
                         </tr>
                     </thead>
                     <tbody>
